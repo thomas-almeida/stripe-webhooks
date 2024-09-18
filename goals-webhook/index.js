@@ -5,7 +5,7 @@ const stripe = require('stripe')(process.env.STRIPE_TEST_KEY);
 // If you are testing with the CLI, find the secret by running 'stripe listen'
 // If you are using an endpoint defined with the API or dashboard, look in your webhook settings
 // at https://dashboard.stripe.com/webhooks
-const endpointSecret = 'whsec_83dc9205f3736548f57f6fea26d993918e290c531a3888b211b22d2c841852cd';
+const endpointSecret = process.env.STRIPE_ENDPOINT_SECRET;
 const express = require('express');
 const app = express();
 
