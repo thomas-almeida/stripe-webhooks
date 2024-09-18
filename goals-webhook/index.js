@@ -5,8 +5,11 @@ const stripe = require('stripe')(process.env.STRIPE_TEST_KEY);
 // If you are testing with the CLI, find the secret by running 'stripe listen'
 // If you are using an endpoint defined with the API or dashboard, look in your webhook settings
 // at https://dashboard.stripe.com/webhooks
-const endpointSecret = process.env.STRIPE_ENDPOINT_SECRET;
+const endpointSecret = 'whsec_83dc9205f3736548f57f6fea26d993918e290c531a3888b211b22d2c841852cd';
 const express = require('express');
+const dotenv = require('dotenv')
+dotenv.config()
+
 const app = express();
 
 app.post('/stripe-webhook', express.raw({type: 'application/json'}), (request, response) => {
@@ -15,13 +18,7 @@ app.post('/stripe-webhook', express.raw({type: 'application/json'}), (request, r
   // Otherwise use the basic event deserialized with JSON.parse
   if (endpointSecret) {
     // Get the signature sent by Stripe
-    
     const signature = request.headers['stripe-signature'];
-    console.log({
-      rb: request.body,
-      sig: signature,
-      end: endpointSecret
-    })
     try {
       event = stripe.webhooks.constructEvent(
         request.body,
@@ -56,4 +53,4 @@ app.post('/stripe-webhook', express.raw({type: 'application/json'}), (request, r
   response.send();
 });
 
-app.listen(4242, () => console.log('✅ Goals Webhook Live'));
+app.listen(4242, () => console.log('Running on port 4242'));
